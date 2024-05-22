@@ -69,7 +69,7 @@ function reverseString(str) {
     // Write your code here to reverse and return the string.
 
 
-    // Reverse using built-in functions.
+    // Reverse using built-in functions:
 
     // let string_array = str.split('')
     // let reversed_array = string_array.reverse()
@@ -77,7 +77,7 @@ function reverseString(str) {
     // return reversed_string
 
 
-    // Reverse using string traversal.
+    // Reverse using string traversal:
 
     let reversedString = ''
 
