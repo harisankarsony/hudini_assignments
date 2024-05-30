@@ -60,7 +60,7 @@ body::before {
   width: 100vw;
   z-index: 0;
   /* use correct CSS property to have "background.svg" file under assets folder set as background image here */
-  background: url(/assets/background.svg);
+  background: url(../assets/background.svg);
   z-index: -1;
   background-attachment: scroll;
 }
