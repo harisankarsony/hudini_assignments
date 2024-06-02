@@ -3,17 +3,22 @@ Josh's Custom CSS Reset
 https://www.joshwcomeau.com/css/custom-css-reset/
 */
 /* prettier-ignore */
-*, *::before, *::after {
-    box-sizing: border-box;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 * {
   margin: 0;
 }
+
 html {
   font-size: 11pt;
   /* import below fonts from https://fonts.google.com/ */
   font-family: "Inter", sans-serif;
 }
+
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -26,22 +31,40 @@ body {
 }
 
 /* prettier-ignore */
-img, picture, video, canvas, svg {
-    display: block;
-    max-width: 100%;
-  }
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
 /* prettier-ignore */
-input, button, textarea, select {
-    font: inherit;
-  }
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
 /* prettier-ignore */
-p, h1, h2, h3, h4, h5, h6 {
-    overflow-wrap: break-word;
-  }
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
 /* prettier-ignore */
-#root, #__next {
-    isolation: isolate;
-  }
+#root,
+#__next {
+  isolation: isolate;
+}
+
 :root {
   --text-color-1: #0a0a0a;
   --text-color-2: #969696;
@@ -93,7 +116,7 @@ p, h1, h2, h3, h4, h5, h6 {
   border-color: #fff;
 }
 
-.button:active{
+.button:active {
   scale: 1.1;
 }
 
@@ -106,17 +129,21 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .email {
-  border: 1px solid var(--background-color2);
+  border: 2px solid var(--background-color2);
   color: var(--text-color-3);
   border-radius: 40px;
   width: 100%;
+  font-weight: 400;
+}
+
+.signup-button {
+  font-weight: 500;
 }
 
 /* footertext */
 
 .footertext {
   font-size: 8pt;
-  font-weight: 300;
   color: var(--text-color-3);
 }
 
@@ -216,7 +243,7 @@ img {
 
 .section3 .dots,
 .section5 .dots {
- width: 7%; 
+  width: 7%;
 }
 
 .section3 .button,
@@ -259,14 +286,153 @@ img {
 }
 
 .footer {
- display: flex;
- flex-direction: column;
- align-items: center;
- padding-top: 5%;
- padding-bottom: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5%;
+  padding-bottom: 10%;
 }
 
 .footer .icon {
- width: 15px;
- height: 15px;
+  width: 15px;
+  height: 15px;
+}
+
+@media (max-width: 736px) {
+
+  /* html */
+
+  html {
+    font-size: 12pt;
+  }
+
+  .icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* maindiv */
+
+  .maindiv {
+    margin: 4% 4% 0 4%;
+  }
+
+  /* textsection & imagesection flex direction*/
+
+  .textsection,
+  .imagesection,
+  .signupform {
+    flex-direction: column;
+  }
+
+  /* textsection */
+
+  .dots {
+    font-weight: 600;
+    width: 80%;
+  }
+
+  .section3 .dots,
+  .section5 .dots {
+    width: 80%;
+  }
+
+  /* imagesection */
+
+  .imagesection .textcard {
+    padding-top: 3%;
+  }
+
+  /* textcard, image, email, imagediv width */
+
+  .textcard,
+  .imagediv,
+  img {
+    width: 100%;
+  }
+
+  .imagediv {
+    height: 425px;
+    order: -1;
+  }
+
+
+  /* textcard */
+
+  .textcard {
+    padding: 5% 10% 0 10%;
+  }
+
+  .textcard h1 {
+    font-size: 21pt;
+  }
+
+  /* form */
+
+  .signup-button {
+    width: 100px;
+  }
+
+  .email {
+    margin-bottom: 5%;
+  }
+
+  /* header */
+
+  .header {
+    padding-bottom: 8%;
+  }
+
+  .header .textcard h1 {
+    font-size: 29pt;
+  }
+
+  .header img {
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+  }
+
+  /* section1 */
+
+
+  .textsection .textcard1 {
+    padding-right: 10%;
+    padding-bottom: 0;
+  }
+  
+  .textsection .textcard2 {
+    padding-left: 10%;
+    padding-bottom: 8%;
+  }
+
+  /* section3 */
+
+  .section3 .textcard{
+    padding-bottom: 0;
+  }
+  
+  /* section5 */
+
+  .section5 .signupform {
+    align-items: start;
+    width: 100%;
+  }
+
+  .section5 .textcard {
+    padding-bottom: 3%;
+  }
+
+  /* footer */
+
+  .footer .icon {
+      width: 30px;
+      height: 30px;
+  }
+
+  /* footertext */
+
+  .footertext {
+    font-size: 11pt;
+  }
+
 }
