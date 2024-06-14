@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   //declaring constants
   const CONSTANTS = {
-    CATEGORY_ALL: 'all',
+    CATEGORY_ALL: 'All',
     INPUT_SEARCH: 'input-search',
     SELECT_CATEGORY: 'select-category'
   }
@@ -36,29 +36,42 @@ export default function Home() {
 
   // fn to update input and category change
   function handleOnChange(e) {
-    let name = e.target.name;
+    const { name, value } = e.target;
 
-    name === CONSTANTS.INPUT_SEARCH ?
-      setSearchValue(e.target.value) :
-      setSelectedCategory(e.target.value);
+    if (name === CONSTANTS.INPUT_SEARCH) {
+      setSearchValue(value);
+    }
+
+    if (name === CONSTANTS.SELECT_CATEGORY) {
+      setSelectedCategory(value);
+    }
   }
 
   // fn that does all kinds of filtering
   function getFilteredProducts() {
-    // filter out based on SearchValue
-    const filteredBySearch = productlist.filter(product => product.title.toLowerCase().includes(SearchValue.toLowerCase()));
-    // filter out based on selectedCategory
-    const filteredByCategory = filteredBySearch.filter(product => product.category === selectedCategory);
-    let finalFilteredList = [];
+    let finalFilteredList  = [];
 
-    //set final list after all filtering is done
-    finalFilteredList = selectedCategory === CONSTANTS.CATEGORY_ALL ?
-      filteredBySearch : filteredByCategory;
+    finalFilteredList = productlist
+      // filter based on selected category
+      .filter(product => {
+        
+        // if selected category is NOT all, filter returns elements of selected category
+        if (!(selectedCategory === CONSTANTS.CATEGORY_ALL)) {
+          return product.category === selectedCategory;
+        };
+        // if category is all, filter returns each element     
+        return true;
+      })
+      // filter again based on search value
+      .filter(product => product.title.toLowerCase().includes(SearchValue.toLowerCase()));
 
     return finalFilteredList;
   }
   // list used for rendering
   const filterList = getFilteredProducts();
+
+  // category list for rendering categories select
+  const categoryList = getCategories();
 
   //fetch only once when page is loaded
   useEffect(() => {
@@ -77,22 +90,18 @@ export default function Home() {
 
   //returns heading and searchbar along with the List component
   return (
-
     <div className="maindiv">
-
       <h1>Search Product</h1>
-
       <div className="littlediv">
         <input name="input-search" value={SearchValue} type="text" placeholder="Type the product name" onChange={handleOnChange}></input>
         <select value={selectedCategory} name="select-category" onChange={handleOnChange}>
           {/* map unique categories as options */}
-          {getCategories().map((category) => <option key={category} value={category}>{category}</option>)}
+          {categoryList.map((category) => <option key={category} value={category}>{category}</option>)}
         </select>
       </div>
 
       {/* imported List component */}
       <List list={filterList}></List>
-
     </div>
 
   )
