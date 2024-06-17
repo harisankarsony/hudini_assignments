@@ -1,31 +1,30 @@
 "use client"
 
 import { Inter } from "next/font/google";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useState } from "react";
+import CONSTANTS from "./constants";
 import List from "@/components/ListProducts";
+import CategoryButtons from "@/components/CategoryButtons";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  //declaring constants
-  const CONSTANTS = {
-    CATEGORY_ALL: 'All',
-    INPUT_SEARCH: 'input-search',
-    SELECT_CATEGORY: 'select-category'
-  }
   const productApi = 'https://dummyjson.com/products';
+  const sortOptions = [CONSTANTS.SORT_OPTION_DEFAULT, CONSTANTS.SORT_OPTION_LOWTOHIGH, CONSTANTS.SORT_OPTION_HIGHTOLOW];
 
   //inititalizing state variables
-  const [productlist, setProductList] = useState([]);
-  const [SearchValue, setSearchValue] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState(CONSTANTS.CATEGORY_ALL);
+  const [productList, setProductList] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
+  // keeps track of the categoreis currently selected by user 
+  const [selectedCategory, setSelectedCategory] = useState([CONSTANTS.CATEGORY_ALL]);
+  const [selectedSortOption, setSelectedSortOption] = useState(CONSTANTS.SORT_OPTION_DEFAULT);
 
   // fn to get unique product categories
   function getCategories() {
     let catergories = [CONSTANTS.CATEGORY_ALL];
 
-    productlist.forEach(element => {
+    productList.forEach(element => {
       if (!catergories.includes(element.category)) {
         catergories.push(element.category);
       }
@@ -45,30 +44,45 @@ export default function Home() {
     if (name === CONSTANTS.SELECT_CATEGORY) {
       setSelectedCategory(value);
     }
+
+    if (name === CONSTANTS.SELECT_SORT_OPTION) {
+      setSelectedSortOption(value);
+    }
   }
 
   // fn that does all kinds of filtering
   function getFilteredProducts() {
-    let finalFilteredList  = [];
+    let finalFilteredList = [];
 
-    finalFilteredList = productlist
+    finalFilteredList = productList
+
       // filter based on selected category
       .filter(product => {
-        
-        // if selected category is NOT all, filter returns elements of selected category
-        if (!(selectedCategory === CONSTANTS.CATEGORY_ALL)) {
-          return product.category === selectedCategory;
-        };
-        // if category is all, filter returns each element     
-        return true;
+        // if selected category contains categories other than 'all', filter those categories
+        if (!(selectedCategory[0] === CONSTANTS.CATEGORY_ALL)) {
+          return selectedCategory.includes(product.category)
+        }
+        // if selected category contains only 'all', no need to filter
+        return true
       })
-      // filter again based on search value
-      .filter(product => product.title.toLowerCase().includes(SearchValue.toLowerCase()));
 
-    return finalFilteredList;
+      // filter again based on search value
+      .filter(product => product.title.toLowerCase().includes(searchValue.toLowerCase()))
+      // sort filtered items
+      .sort((a, b) => {
+        if (selectedSortOption === CONSTANTS.SORT_OPTION_LOWTOHIGH) {
+          return a.price - b.price;
+        }
+        if (selectedSortOption === CONSTANTS.SORT_OPTION_HIGHTOLOW) {
+          return b.price - a.price;
+        }
+      });
+
+    return finalFilteredList
   }
-  // list used for rendering
-  const filterList = getFilteredProducts();
+
+  // list used for rendering (useMemo prevents unnecessary re-renders)
+  const filterList = useMemo(getFilteredProducts, [productList, selectedCategory, searchValue, selectedSortOption]);
 
   // category list for rendering categories select
   const categoryList = getCategories();
@@ -90,19 +104,27 @@ export default function Home() {
 
   //returns heading and searchbar along with the List component
   return (
-    <div className="maindiv">
-      <h1>Search Product</h1>
-      <div className="littlediv">
-        <input name="input-search" value={SearchValue} type="text" placeholder="Type the product name" onChange={handleOnChange}></input>
-        <select value={selectedCategory} name="select-category" onChange={handleOnChange}>
-          {/* map unique categories as options */}
-          {categoryList.map((category) => <option key={category} value={category}>{category}</option>)}
-        </select>
+    <div className="main-div">
+      <h1>Find Product</h1>
+
+      <div className="little-div">
+        <input name={CONSTANTS.INPUT_SEARCH} value={searchValue} type="text" placeholder="Type the product name" onChange={handleOnChange}></input>
+        <div className="filter-div">
+          <label>Filter by category: </label>
+          {/* component that handles selected category list */}
+          <CategoryButtons categories={categoryList} currState={selectedCategory} setState={setSelectedCategory} />
+        </div>
+
+        <div className="sort-div">
+          <label>Sort by: </label>
+          <select className={CONSTANTS.SELECT_SORT_OPTION} value={selectedSortOption} name={CONSTANTS.SELECT_SORT_OPTION} onChange={handleOnChange}>
+            {sortOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+          </select>
+        </div>
       </div>
 
-      {/* imported List component */}
-      <List list={filterList}></List>
+      {/* component that renders filtered products list */}
+      <List list={filterList} />
     </div>
-
   )
 }

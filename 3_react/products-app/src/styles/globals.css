@@ -128,19 +128,20 @@ li {
 
 input {
   width: 30%;
-  height: 50px;
   padding: 3px 20px;
 }
 
 select {
-  width: 10%;
+  width: 130px;
 }
 
-.maindiv h1 {
+.main-div h1 {
   margin: 1% 20%;
 }
 
-.littlediv {
+.little-div {
   display: flex;
   margin: 0 20%;
+  justify-content: space-between;
+  align-items: center;
 }

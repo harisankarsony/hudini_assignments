@@ -1,4 +1,4 @@
-// component that displays the filtered products
+// displays the details of products in filterList
 export default function List({list}) {
     return (
       <ul>
