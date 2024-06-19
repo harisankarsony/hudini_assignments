@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Inter } from "next/font/google";
@@ -83,6 +84,9 @@ export default function Home() {
 
   // list used for rendering (useMemo prevents unnecessary re-renders)
   const filterList = useMemo(getFilteredProducts, [productList, selectedCategory, searchValue, selectedSortOption]);
+  
+  // get count of filtered products
+  const filteredCount = filterList.length;
 
   // category list for rendering categories select
   const categoryList = getCategories();
@@ -104,27 +108,36 @@ export default function Home() {
 
   //returns heading and searchbar along with the List component
   return (
-    <div className="main-div">
-      <h1>Find Product</h1>
+    <>
+      <header className="header">
+        <h1>Find Product</h1>
+        <div className="header-main-div">
+          <input name={CONSTANTS.INPUT_SEARCH} value={searchValue} type="text" placeholder="Type the product name" onChange={handleOnChange}></input>
+          <div className="sort-div">
+            <label>Sort by: </label>
+            <select className={CONSTANTS.SELECT_SORT_OPTION} value={selectedSortOption} name={CONSTANTS.SELECT_SORT_OPTION} onChange={handleOnChange}>
+              {sortOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+            </select>
+          </div>
+        </div>
+      </header>
 
-      <div className="little-div">
-        <input name={CONSTANTS.INPUT_SEARCH} value={searchValue} type="text" placeholder="Type the product name" onChange={handleOnChange}></input>
+      <div className="main-div">
         <div className="filter-div">
-          <label>Filter by category: </label>
+          <p>Filter by category: </p>
           {/* component that handles selected category list */}
           <CategoryButtons categories={categoryList} currState={selectedCategory} setState={setSelectedCategory} />
+          <p className="product-count">Displaying <b style={{color: 'brown'}}>{filteredCount}</b> products</p>
         </div>
-
-        <div className="sort-div">
-          <label>Sort by: </label>
-          <select className={CONSTANTS.SELECT_SORT_OPTION} value={selectedSortOption} name={CONSTANTS.SELECT_SORT_OPTION} onChange={handleOnChange}>
-            {sortOptions.map((option) => <option key={option} value={option}>{option}</option>)}
-          </select>
+        <div className="product-list-div">
+          <List list={filterList} />
         </div>
       </div>
-
-      {/* component that renders filtered products list */}
-      <List list={filterList} />
-    </div>
+      </>
   )
 }
+
+// TODO:
+// CSS refactoring
+// clear button
+

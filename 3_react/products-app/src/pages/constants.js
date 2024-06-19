@@ -1,6 +1,6 @@
 //declaring constants
 const CONSTANTS = {
-    SORT_OPTION_DEFAULT: 'alphabetic',
+    SORT_OPTION_DEFAULT: 'a - z',
     SORT_OPTION_LOWTOHIGH: 'price: low to high',
     SORT_OPTION_HIGHTOLOW: 'price: high to low',
     CATEGORY_ALL: 'all',

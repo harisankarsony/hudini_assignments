@@ -39,8 +39,8 @@ function CategoryButtons({ categories, currState, setState }) {
 
   return (
     // render category buttons with selected / unselected styling
-    <div>
-      {categories.map(category => <button style={handleStyle(category) ? { color: 'red' } : { color: '' }}
+    <div className="category">
+      {categories.map(category => <button style={handleStyle(category) ? { color: 'white', background:'rgb(165, 41, 41)' } : { color: '' }}
         key={category} value={category} onClick={handleOnClick}>{category}</button>)}
     </div>
   )
