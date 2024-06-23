@@ -1,0 +1,55 @@
+.main_div {
+    margin: 2% 30%;
+    text-align: center;
+}
+
+.main_div h1 {
+    font-size: 35px;
+    color: rgba(0, 0, 0, 0.747);
+}
+
+.main_div .link {
+    display: block;
+    margin: 15px;
+    font-size: 15px;
+    color: #5cb85c;
+    text-decoration: none;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form input {
+    border: 1px solid rgba(0, 0, 0, .15);
+    color: rgba(0, 0, 0, 0.616);
+    font-size: 20px;
+    padding: 0.8em 1.3em;
+    border-radius: 8px;
+}
+
+.form input {
+    border: 1px solid rgba(0, 0, 0, .15);
+    color: rgba(0, 0, 0, 0.616);
+    font-size: 20px;
+    padding: 0.8em 1.3em;
+    border-radius: 8px;
+    /* margin: 10px 0; */
+}
+
+.form input:focus {
+    outline: 1px solid rgb(141, 141, 255);
+}
+
+.form button {
+   padding: 0.8em;
+   width: 120px;
+   font-size: 18px;
+   border: none;
+   border-radius: 5px;
+   color: white;
+   background-color: #5cb85c;
+   align-self: flex-end;
+}

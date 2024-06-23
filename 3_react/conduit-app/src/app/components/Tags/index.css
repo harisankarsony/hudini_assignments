@@ -1,0 +1,32 @@
+.main-div {
+    background-color: #f3f3f3;
+    border: none;
+    border-radius: 5px;
+    padding: 5%;
+    width: 220px;
+}
+
+.main-div p {
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.tags-div button{
+    color: white;
+    background-color: #818a91;
+    border: none;
+    border-radius: 12px;
+    font-size: 12px;
+    padding: 0.5em;
+    margin: 2px;
+}
+
+.tags-div button:hover {
+    background-color: #6c7275;
+    cursor: pointer;
+}
+
+.content-div {
+    display: flex;
+    justify-content: center;
+}

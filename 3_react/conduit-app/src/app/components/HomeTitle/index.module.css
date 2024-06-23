@@ -1,0 +1,17 @@
+.main_div {
+    background-color: #5cb85c;
+    text-align: center;
+    color: white;
+    padding: 3% 0;
+}
+
+.h1 {
+    font-size: 45px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.p {
+    font-size: 22px;
+    font-weight: 200;
+}

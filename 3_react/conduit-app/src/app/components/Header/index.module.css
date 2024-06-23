@@ -1,0 +1,28 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1% 10%;
+}
+
+.h1 {
+    color: #5cb85c;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.nav_buttons {
+    display: flex;
+    gap: 20px;
+    font-size: 15px;
+}
+
+.link {
+    text-decoration: none;
+    color: rgba(0,0,0,.3);
+}
+
+.link:hover {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.555);
+}

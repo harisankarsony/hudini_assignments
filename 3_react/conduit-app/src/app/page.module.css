@@ -1,0 +1,9 @@
+.main_div {
+    display: flex;
+    gap: 40px;
+    margin: 35px 130px;
+}
+
+.feeds_div {
+    width: 75%;
+}

@@ -140,4 +140,5 @@ export default function Home() {
 // TODO:
 // CSS refactoring
 // clear button
+// product page styling
 
