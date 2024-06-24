@@ -11,6 +11,8 @@ import {
 } from "../../features/articles/articlesSlice";
 import { Spinner } from "../Spinner";
 
+const userToken = localStorage.getItem("token");
+
 export default function Feeds() {
   const counter = useRef(null);
   const limit = 10;
@@ -96,11 +98,22 @@ export default function Feeds() {
 
   return (
     <>
-      <div className={styles.feed_links}>
-        <Link className={styles.link} href="..">
-          Gobal Feed
-        </Link>
-      </div>
+      {userToken ? (
+        <div className={styles.feed_links}>
+          <Link className={styles.link} href="..">
+            Your Feed
+          </Link>
+          <Link className={styles.link} href="..">
+            Gobal Feed
+          </Link>
+        </div>
+      ) : (
+        <div className={styles.feed_links}>
+          <Link className={styles.link} href="..">
+            Gobal Feed
+          </Link>
+        </div>
+      )}
       <div className={styles.content_div}>{content}</div>
     </>
   );

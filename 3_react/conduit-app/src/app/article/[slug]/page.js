@@ -50,7 +50,7 @@ function Article({ params }) {
           </div>
           <div className="body">
             {article.body}
-            <div>
+            <div className="span-div">
               {article.tagList.map((tag) => (
                 <span>{tag}</span>
               ))}

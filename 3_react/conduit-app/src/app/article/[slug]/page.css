@@ -72,11 +72,13 @@
 
 .main_div .body {
     padding: 3% 8%;
+    padding-bottom: 0;
     font-family: 'source serif pro', serif;
     font-size: 1.3rem;
     line-height: 1.9rem;
     margin-bottom: 2rem;
     color: rgba(0, 0, 0, 0.815);
+    border-bottom: 1px solid rgb(201, 201, 201);
 }
 
 .main_div .body span {
@@ -85,5 +87,11 @@
     color: #aaa;
     background: 0 0;
     border-radius: 1em;
-    padding: 0.2em;
-} 
+    padding: 0.2em 0.4em;
+    font-size: 14px;
+    margin: 0 2px;
+}
+
+.span-div {
+    margin: 20px 0;
+}

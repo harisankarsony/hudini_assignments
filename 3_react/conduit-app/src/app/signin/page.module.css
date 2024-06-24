@@ -52,4 +52,5 @@
    color: white;
    background-color: #5cb85c;
    align-self: flex-end;
+   cursor: pointer;
 }

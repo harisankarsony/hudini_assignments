@@ -5,20 +5,23 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { useState } from "react";
 import axios from "axios";
-// import { headers } from "next/headers";
-// import { log } from "console";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [buttonState, setButtonState] = useState({
+    disabled: false,
+    bg: "",
+  });
 
   const router = useRouter();
 
   async function submit(e) {
+    setButtonState({ disabled: true, bg: "#5cb85cb0" });
     e.preventDefault();
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://api.realworld.io/api/users",
         {
           user: {
@@ -35,6 +38,7 @@ export default function SignUp() {
       );
       router.push("/signin");
     } catch (err) {
+      setButtonState({ disabled: false, bg: "#5cb85c" });
       console.log(err, "error");
     }
   }
@@ -81,7 +85,13 @@ export default function SignUp() {
           onChange={handleOnChange}
           value={password}
         ></input>
-        <button> Sign up</button>
+        <button
+          style={{ background: buttonState.bg }}
+          disabled={buttonState.disabled}
+        >
+          {" "}
+          Sign up
+        </button>
       </form>
     </div>
   );
