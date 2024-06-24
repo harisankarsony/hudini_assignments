@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./index.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTags } from "@/app/features/tags/tagsSlice";
+import { fetchTags } from "../../features/tags/tagsSlice";
 import { Spinner } from "../Spinner";
 
 export default function Tags() {

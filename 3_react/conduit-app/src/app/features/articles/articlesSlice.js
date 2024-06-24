@@ -1,6 +1,6 @@
 "use client";
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
@@ -8,6 +8,7 @@ const initialState = {
   status: "idle",
   error: null,
   articlesCount: 0,
+  currentArticleSlug: "monkey",
 };
 
 export const fetchArticles = createAsyncThunk(
@@ -31,6 +32,9 @@ const articlesSlice = createSlice({
     pageination(state, action) {
       state.items = action.payload;
     },
+    // updateArticleSlice(state, action) {
+    //   state.currentArticleSlug = action.payload;
+    // },
   },
   extraReducers(builder) {
     builder
@@ -49,6 +53,6 @@ const articlesSlice = createSlice({
   },
 });
 
-export const { pageination } = articlesSlice.actions;
+export const { pageination, updateArticleSlug } = articlesSlice.actions;
 
 export default articlesSlice.reducer;
