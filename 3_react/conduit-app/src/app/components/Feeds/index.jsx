@@ -11,12 +11,10 @@ import {
 } from "../../features/articles/articlesSlice";
 import { Spinner } from "../Spinner";
 
-const userToken = localStorage.getItem("token");
-
 export default function Feeds() {
   const counter = useRef(null);
   const limit = 10;
-
+  const userToken = localStorage.getItem("token");
   const [spinner, setSpinner] = useState(false);
 
   const dispatch = useDispatch();

@@ -54,3 +54,10 @@
    align-self: flex-end;
    cursor: pointer;
 }
+
+.errors_div li {
+    color: #b85c5c;
+    font-weight: 700;
+    text-align: left;
+    margin: 8px;
+}

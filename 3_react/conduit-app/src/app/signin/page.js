@@ -9,6 +9,7 @@ import axios from "axios";
 export default function SignIN() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const [error, setError] = useState("");
   const [buttonState, setButtonState] = useState({
     disabled: false,
     bg: "",
@@ -35,12 +36,15 @@ export default function SignIN() {
         }
       );
       localStorage.setItem("token", userDetails.data.user.token);
+      localStorage.setItem("username", userDetails.data.user.username);
       router.push("/");
     } catch (err) {
       setButtonState({ disabled: false, bg: "#5cb85c" });
-      console.log(err, "error");
+      // setError(err.response.data.errors);
     }
   }
+
+  // console.log(error);
 
   function handleOnChange(e) {
     if (e.target.name === "email") {

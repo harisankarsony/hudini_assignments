@@ -1,33 +1,10 @@
 "use client";
 import Link from "next/link";
 import styles from "./index.module.css";
-import axios from "axios";
-import { useEffect } from "react";
-
-const token = localStorage.getItem("token");
-console.log(token);
 
 export default function Header() {
-  useEffect(() => {
-    async function getUser(e) {
-      try {
-        console.log("hihi");
-        const userDetails = await axios.get(
-          "https://api.realworld.io/api/user",
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: token,
-            },
-          }
-        );
-        console.log(userDetails);
-      } catch (err) {
-        console.log(err, "error");
-      }
-    }
-    getUser();
-  }, []);
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
 
   return (
     <header className={styles.header}>
@@ -38,11 +15,20 @@ export default function Header() {
         <Link className={styles.link} href="..">
           Home
         </Link>
-        <Link className={styles.link} href="./signin">
-          Sign in
-        </Link>
-        <Link className={styles.link} href="./signup">
-          Sign up
+        {token ? (
+          ""
+        ) : (
+          <>
+            <Link className={styles.link} href="./signin">
+              Sign in
+            </Link>
+            <Link className={styles.link} href="./signup">
+              Sign up
+            </Link>
+          </>
+        )}
+        <Link className={styles.link} href="/">
+          {username}
         </Link>
       </div>
     </header>

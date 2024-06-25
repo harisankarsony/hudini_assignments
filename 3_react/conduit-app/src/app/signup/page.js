@@ -5,8 +5,21 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { useState } from "react";
 import axios from "axios";
+import { z } from "zod";
+import { Padauk } from "next/font/google";
+
+const signupSchema = z.object({
+  username: z
+    .string()
+    .min(3, { message: "Username must be at least 3 characters long" }),
+  email: z.string().email({ message: "Invalid email format" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters long" }),
+});
 
 export default function SignUp() {
+  const [error, setError] = useState([]);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,9 +30,25 @@ export default function SignUp() {
 
   const router = useRouter();
 
+  const validateSignup = (formData) => {
+    try {
+      signupSchema.parse(formData);
+      return { success: true, errors: [] };
+    } catch (error) {
+      console.log("err");
+      return { success: false, errors: error.errors };
+    }
+  };
+
   async function submit(e) {
     setButtonState({ disabled: true, bg: "#5cb85cb0" });
     e.preventDefault();
+
+    const result = validateSignup({ username, email, password });
+
+    console.log(result, "redult");
+    setError(result.errors);
+
     try {
       await axios.post(
         "https://api.realworld.io/api/users",
@@ -36,14 +65,17 @@ export default function SignUp() {
           },
         }
       );
+      // setButtonState({ disabled: !disabled, bg: "#5cb85c" });
       router.push("/signin");
     } catch (err) {
-      setButtonState({ disabled: false, bg: "#5cb85c" });
-      console.log(err, "error");
+      console.log(err.response.data.errors, "error");
+      Object.entries(err.response.data.errors, "sdsd");
     }
   }
 
   function handleOnChange(e) {
+    setButtonState({ disabled: false, bg: "#5cb85c" });
+    setError([]);
     if (e.target.name === "username") {
       setUsername(e.target.value);
     }
@@ -55,6 +87,8 @@ export default function SignUp() {
     }
   }
 
+  // console.log(error.length);
+
   return (
     <div className={styles.main_div}>
       <h1>Sign up</h1>
@@ -63,6 +97,17 @@ export default function SignUp() {
           Have an account?
         </Link>
       </p>
+
+      {!!error.length && (
+        <div className={styles.errors_div}>
+          <ul>
+            {error.map((error) => (
+              <li>{error.message}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <form className={styles.form} onSubmit={submit}>
         <input
           type="text"
