@@ -14,14 +14,21 @@ import { Spinner } from "../Spinner";
 export default function Feeds() {
   const counter = useRef(null);
   const limit = 10;
-  const userToken = localStorage.getItem("token");
-  const [spinner, setSpinner] = useState(false);
+  const userToken =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
+  const [spinner, setSpinner] = useState(false);
   const dispatch = useDispatch();
   let articles = useSelector((state) => state.articles.items);
   const articlesCount = useSelector((state) => state.articles.articlesCount);
   const articleStatus = useSelector((state) => state.articles.status);
   const error = useSelector((state) => state.articles.error);
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   function generateButtons(count) {
     const buttonInfo = [];
@@ -96,7 +103,7 @@ export default function Feeds() {
 
   return (
     <>
-      {userToken ? (
+      {userToken && isClient ? (
         <div className={styles.feed_links}>
           <Link className={styles.link} href="..">
             Your Feed

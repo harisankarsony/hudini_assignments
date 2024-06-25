@@ -5,7 +5,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { useState } from "react";
 import axios from "axios";
-import { z } from "zod";
+import { object, z } from "zod";
 import { Padauk } from "next/font/google";
 
 const signupSchema = z.object({
@@ -40,14 +40,26 @@ export default function SignUp() {
     }
   };
 
+  const handleServerError = (error) => {
+    let errorMessages = [];
+    for (const key in error) {
+      errorMessages.push(key + " " + error[key]);
+    }
+
+    setError(errorMessages);
+  };
+
   async function submit(e) {
     setButtonState({ disabled: true, bg: "#5cb85cb0" });
     e.preventDefault();
 
     const result = validateSignup({ username, email, password });
 
-    console.log(result, "redult");
-    setError(result.errors);
+    if (!result.success) {
+      const zodErrors = result.errors.map((err) => err.message);
+      setError(zodErrors);
+      return;
+    }
 
     try {
       await axios.post(
@@ -65,13 +77,14 @@ export default function SignUp() {
           },
         }
       );
-      // setButtonState({ disabled: !disabled, bg: "#5cb85c" });
       router.push("/signin");
     } catch (err) {
-      console.log(err.response.data.errors, "error");
-      Object.entries(err.response.data.errors, "sdsd");
+      let error = err.response.data.errors;
+      handleServerError(error);
     }
   }
+
+  // console.log(error);
 
   function handleOnChange(e) {
     setButtonState({ disabled: false, bg: "#5cb85c" });
@@ -87,8 +100,6 @@ export default function SignUp() {
     }
   }
 
-  // console.log(error.length);
-
   return (
     <div className={styles.main_div}>
       <h1>Sign up</h1>
@@ -102,7 +113,7 @@ export default function SignUp() {
         <div className={styles.errors_div}>
           <ul>
             {error.map((error) => (
-              <li>{error.message}</li>
+              <li>{error}</li>
             ))}
           </ul>
         </div>

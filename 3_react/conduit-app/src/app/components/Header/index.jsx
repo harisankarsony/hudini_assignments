@@ -1,10 +1,19 @@
 "use client";
 import Link from "next/link";
 import styles from "./index.module.css";
+import { useEffect, useState } from "react";
 
 export default function Header() {
-  const token = localStorage.getItem("token");
-  const username = localStorage.getItem("username");
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const username =
+    typeof window !== "undefined" ? localStorage.getItem("username") : null;
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <header className={styles.header}>
@@ -15,8 +24,15 @@ export default function Header() {
         <Link className={styles.link} href="..">
           Home
         </Link>
-        {token ? (
-          ""
+        {token && isClient ? (
+          <>
+            <Link className={styles.link} href="/new-article">
+              New Article
+            </Link>
+            <Link className={styles.link} href="/profile">
+              {username}
+            </Link>
+          </>
         ) : (
           <>
             <Link className={styles.link} href="./signin">
@@ -27,9 +43,6 @@ export default function Header() {
             </Link>
           </>
         )}
-        <Link className={styles.link} href="/">
-          {username}
-        </Link>
       </div>
     </header>
   );
