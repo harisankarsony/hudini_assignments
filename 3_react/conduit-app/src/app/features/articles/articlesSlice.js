@@ -3,6 +3,8 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const token = localStorage.getItem("token");
+
 const initialState = {
   items: [],
   status: "idle",
@@ -16,8 +18,13 @@ export const fetchArticles = createAsyncThunk(
   async () => {
     const articlesApi = `https://api.realworld.io/api/articles?offset=0&limit=10`;
 
-    const response = await axios.get(articlesApi);
-
+    const response = token
+      ? await axios.get(articlesApi, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      : await axios.get(articlesApi);
     return {
       items: response.data.articles,
       articlesCount: response.data.articlesCount,
