@@ -3,7 +3,8 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const token = localStorage.getItem("token");
+const token =
+  typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
 const initialState = {
   items: [],
@@ -25,6 +26,7 @@ export const fetchArticles = createAsyncThunk(
           },
         })
       : await axios.get(articlesApi);
+
     return {
       items: response.data.articles,
       articlesCount: response.data.articlesCount,

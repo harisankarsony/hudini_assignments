@@ -2,10 +2,11 @@
 import Link from "next/link";
 import styles from "./index.module.css";
 import { useEffect, useState } from "react";
+import useAuth from "../useAuth/useAuth";
 
 export default function Header() {
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  // const token =
+  //   typeof window !== "undefined" ? localStorage.getItem("token") : null;
   const username =
     typeof window !== "undefined" ? localStorage.getItem("username") : null;
 
@@ -24,7 +25,7 @@ export default function Header() {
         <Link className={styles.link} href="..">
           Home
         </Link>
-        {token && isClient ? (
+        {useAuth() && isClient ? (
           <>
             <Link className={styles.link} href="/new-article">
               New Article

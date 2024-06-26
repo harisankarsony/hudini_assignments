@@ -51,8 +51,8 @@ function Article({ params }) {
           <div className="body">
             {article.body}
             <div className="span-div">
-              {article.tagList.map((tag) => (
-                <span>{tag}</span>
+              {article.tagList.map((tag, index) => (
+                <span key={index}>{tag}</span>
               ))}
             </div>
           </div>

@@ -1,14 +1,17 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import withAuth from "../components/withAuth";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const NewArticle = () => {
   const [title, setTitle] = useState("");
   const [about, setAbout] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
+
+  const router = useRouter();
 
   async function submit(e) {
     e.preventDefault();
@@ -30,7 +33,7 @@ const NewArticle = () => {
         title: title,
         description: about,
         body: content,
-        tagList: [tags],
+        tagList: tags.split(","),
       },
     };
 
@@ -39,6 +42,7 @@ const NewArticle = () => {
       .post(url, data, { headers: headers })
       .then((response) => {
         console.log("Success:", response.data);
+        router.push(`/article/${response.data.article.slug}`);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -77,8 +81,7 @@ const NewArticle = () => {
           name="about"
           value={about}
         />
-        <input
-          type="text"
+        <textarea
           placeholder="Write your article (in markdown)"
           onChange={handleOnChange}
           name="content"
@@ -86,7 +89,7 @@ const NewArticle = () => {
         />
         <input
           type="text"
-          placeholder="Enter tags"
+          placeholder="Enter tags (separated with commas)"
           onChange={handleOnChange}
           name="tags"
           value={tags}

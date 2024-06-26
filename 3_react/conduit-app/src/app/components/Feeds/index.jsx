@@ -10,12 +10,17 @@ import {
   pageination,
 } from "../../features/articles/articlesSlice";
 import { Spinner } from "../Spinner";
+import useAuth from "../useAuth/useAuth";
+import axios from "axios";
+
+const token =
+  typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
 export default function Feeds() {
   const counter = useRef(null);
   const limit = 10;
-  const userToken =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+  const isLoggedIn = useAuth();
 
   const [spinner, setSpinner] = useState(false);
   const dispatch = useDispatch();
@@ -54,10 +59,19 @@ export default function Feeds() {
     e.target.style.background = "#5cb85c";
     e.target.style.color = "#fff";
 
-    const response = await fetch(
-      `https://api.realworld.io/api/articles?offset=${off}&limit=${limit}`
-    );
-    const readableResponse = await response.json();
+    const response = isLoggedIn
+      ? await axios.get(
+          `https://api.realworld.io/api/articles?offset=${off}&limit=${limit}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+      : await axios.get(
+          `https://api.realworld.io/api/articles?offset=${off}&limit=${limit}`
+        );
+    const readableResponse = await response.data;
 
     setSpinner(false);
 
@@ -80,8 +94,8 @@ export default function Feeds() {
     content = (
       <>
         <div>
-          {articles.map((article, index) => (
-            <Feed key={index} feedContent={article} />
+          {articles.map((article) => (
+            <Feed key={article.slug} feedContent={article} />
           ))}
         </div>
         <div>
@@ -103,7 +117,7 @@ export default function Feeds() {
 
   return (
     <>
-      {userToken && isClient ? (
+      {isLoggedIn && isClient ? (
         <div className={styles.feed_links}>
           <Link className={styles.link} href="..">
             Your Feed

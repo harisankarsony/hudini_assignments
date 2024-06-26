@@ -1,9 +1,17 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import WithAuth from "../components/withAuth/index";
 
 const Profile = () => {
-  return <div>profile page</div>;
+  const router = useRouter();
+
+  function handleOnClick() {
+    localStorage.clear();
+    router.push("/");
+  }
+
+  return <button onClick={handleOnClick}>Sign out</button>;
 };
 
 export default WithAuth(Profile);

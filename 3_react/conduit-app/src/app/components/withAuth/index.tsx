@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 
-const sessionStatus = localStorage.getItem("token");
+const sessionStatus = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
 export default function withAuth(Component: any) {
   return function WithAuth(props: any) {
